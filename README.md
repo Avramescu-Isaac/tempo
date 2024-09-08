@@ -1,75 +1,112 @@
-Hai să rezolvăm exercițiul 1 din acest nou model de examen. Vom descrie execuția programului folosind semantica operațională big-step.
+Hai să rezolvăm exercițiul 3 din al doilea model de examen, care se bazează pe găsirea unei **SLD-respingere** pentru un program Prolog. 
 
-### Exercițiul 1
+### Exercițiul 3 din al doilea model:
 
-Avem următorul program:
-
-``` 
-while I * I ≤ N do (if I * I = N then P := 1 else skip); I := I + 1 
+Program Prolog:
+```prolog
+shuffle(lit(X), lit(X)).
+shuffle(arb(X, Y, Z), arb(T, U, W)) :- shuffle(X, U), shuffle(Y, W), shuffle(Z, T).
 ```
 
-**(a) Să se descrie formal execuția lui Pgm, dintr-o stare inițială σ cu σ(N) = 30, σ(I) = 5, σ(P) = 0, folosind semantica operațională big-step sau small-step.**
+**Ținta:**
+```prolog
+shuffle(X, arb(lit(t), lit(c), lit(u)), arb(lit(i), lit(a), lit(t), lit(i), lit(e), lit(r))).
+```
+
+Trebuie să găsim o **SLD-respingere** pentru programul de mai sus și să determinăm valoarea lui `X` în substituția calculată.
 
 ### Rezolvare:
 
-1. **Stare inițială:**
-   - σ(N) = 30
-   - σ(I) = 5
-   - σ(P) = 0
+1. **Pasul 1: Începem cu rezolvarea goal-ului.**
 
-2. **Programul:** `while I * I ≤ N do (if I * I = N then P := 1 else skip); I := I + 1`
+   ```prolog
+   shuffle(X, arb(lit(t), lit(c), lit(u)), arb(lit(i), lit(a), lit(t), lit(i), lit(e), lit(r))).
+   ```
 
-3. **Aplica regula `while` și începe evaluarea buclei:**
+2. **Pasul 2: Aplicăm prima regulă `shuffle/2` pentru a descompune termenii.**
 
-   Începem să evaluăm bucla `while` pentru condiția `I * I ≤ N`.
+   Observăm că regula de bază:
+   ```prolog
+   shuffle(lit(X), lit(X)).
+   ```
+   nu se poate aplica direct, deoarece termenii nu sunt de forma `lit(X)`.
 
-   Starea curentă:
-   - I = 5, N = 30, P = 0
-   - Condiție: `5 * 5 ≤ 30` (adică `25 ≤ 30`) -> Adevărat
+3. **Pasul 3: Aplicăm a doua regulă `shuffle/2` pentru a descompune arborele.**
 
-4. **Aplica `if-then-else`:**
-   - `I * I = N` (adică `5 * 5 = 30`) -> Fals
-   - Deci, se aplică ramura `else`: `skip`
-   
-   Starea rămâne aceeași: I = 5, N = 30, P = 0
+   A doua regulă are forma:
+   ```prolog
+   shuffle(arb(X, Y, Z), arb(T, U, W)) :- shuffle(X, U), shuffle(Y, W), shuffle(Z, T).
+   ```
 
-5. **Aplica `I := I + 1`:**
-   - I devine `I + 1` (adică `5 + 1 = 6`).
+   Aplicând această regulă:
+   - `X = arb(X1, Y1, Z1)` pentru unii termeni `X1`, `Y1`, `Z1`.
+   - Goal-urile devin:
+     ```prolog
+     shuffle(X1, lit(i)), shuffle(Y1, lit(a)), shuffle(Z1, arb(lit(t), lit(i), lit(e), lit(r))).
+     ```
 
-   Noua stare: 
-   - I = 6, N = 30, P = 0
+4. **Pasul 4: Descompunem `shuffle(X1, lit(i))`.**
 
-6. **Bucla continuă cu noua valoare a lui I:**
-   - Condiția `6 * 6 ≤ 30` devine `36 ≤ 30`, care este falsă.
+   Dacă `X1 = lit(i)`, goal-ul `shuffle(lit(i), lit(i))` se poate rezolva folosind prima regulă `shuffle/2`. 
 
-7. **Ieșirea din bucla `while`:**  
-   Deoarece condiția este falsă, bucla se încheie și execuția programului se oprește.
+   - Substituția devine: `{X1 = lit(i)}`.
+   - Noua listă de goal-uri devine:
+     ```prolog
+     shuffle(Y1, lit(a)), shuffle(Z1, arb(lit(t), lit(i), lit(e), lit(r))).
+     ```
 
-### Starea finală:
-- I = 6
-- N = 30
-- P = 0
+5. **Pasul 5: Descompunem `shuffle(Y1, lit(a))`.**
 
-**Rezultatul final:** `σ'(I) = 6`, `σ'(N) = 30`, `σ'(P) = 0`
+   Similar, dacă `Y1 = lit(a)`, goal-ul `shuffle(lit(a), lit(a))` se poate rezolva folosind prima regulă `shuffle/2`.
 
----
+   - Substituția devine: `{Y1 = lit(a)}`.
+   - Noua listă de goal-uri devine:
+     ```prolog
+     shuffle(Z1, arb(lit(t), lit(i), lit(e), lit(r))).
+     ```
 
-**(b) Să se arate că enunțul Hoare**:
+6. **Pasul 6: Descompunem `shuffle(Z1, arb(lit(t), lit(i), lit(e), lit(r)))`.**
 
-\[
-\{I = 0 \land \exists K (N = K * K)\} \text{Pgm}\{P = 1\}
-\]
+   Aplicăm din nou regula a doua de shuffle:
+   - `Z1 = arb(Z11, Z12, Z13)`.
+   - Goal-urile devin:
+     ```prolog
+     shuffle(Z11, lit(t)), shuffle(Z12, lit(i)), shuffle(Z13, arb(lit(e), lit(r))).
+     ```
 
-**este demonstrabil.**
+7. **Pasul 7: Continuăm decompoziția cu `shuffle(Z11, lit(t))`, `shuffle(Z12, lit(i))`, și `shuffle(Z13, arb(lit(e), lit(r)))`.**
 
-### Demonstrație:
+   - `shuffle(Z11, lit(t))` se rezolvă dacă `Z11 = lit(t)`.
+   - `shuffle(Z12, lit(i))` se rezolvă dacă `Z12 = lit(i)`.
+   - `shuffle(Z13, arb(lit(e), lit(r)))` se rezolvă printr-o altă descompunere:
+     - `Z13 = arb(Z131, Z132)`, și goal-urile devin:
+       ```prolog
+       shuffle(Z131, lit(e)), shuffle(Z132, lit(r)).
+       ```
+     - `shuffle(Z131, lit(e))` se rezolvă dacă `Z131 = lit(e)`.
+     - `shuffle(Z132, lit(r))` se rezolvă dacă `Z132 = lit(r)`.
 
-Enunțul Hoare afirmă că, dacă inițial \(I = 0\) și există un \(K\) astfel încât \(N = K * K\), atunci, după execuția lui Pgm, \(P = 1\).
+8. **Pasul 8: Finalizarea substituției.**
 
-1. Condiția de intrare spune că există un \(K\) astfel încât \(N = K * K\).
-2. În timpul execuției buclei, dacă \(I * I = N\), atunci \(P := 1\) și \(P = 1\) rămâne valabil.
-3. Din moment ce bucla parcurge toate valorile de la 0 în sus și condiția \(I * I \leq N\) este adevărată, în final, dacă \(I * I = N\) pentru un anumit \(I\), se va seta \(P = 1\).
+   Avem următoarele substituții:
+   - `X1 = lit(i)`
+   - `Y1 = lit(a)`
+   - `Z11 = lit(t)`
+   - `Z12 = lit(i)`
+   - `Z131 = lit(e)`
+   - `Z132 = lit(r)`
 
-Astfel, enunțul Hoare este demonstrabil.
+   Deci, substituția completă pentru `X` este:
 
-Dacă mai ai nevoie de detalii sau clarificări, spune-mi!
+   ```prolog
+   X = arb(lit(i), lit(a), arb(lit(t), lit(i), arb(lit(e), lit(r)))).
+   ```
+
+9. **Concluzie:**
+
+   Valoarea lui `X` în substituția calculată este:
+   ```prolog
+   arb(lit(i), lit(a), arb(lit(t), lit(i), arb(lit(e), lit(r)))).
+   ```
+
+Acesta este răspunsul pentru exercițiul 3 din al doilea model de examen. Dacă ai întrebări sau vrei mai multe detalii, spune-mi!
