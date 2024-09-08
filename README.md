@@ -1,95 +1,75 @@
-Da, pot să te ajut cu exercițiul din imagine. Hai să trecem prin fiecare punct pe rând și să vedem ce relație ar trebui să existe între ele.
+Hai să rezolvăm exercițiul 1 din acest nou model de examen. Vom descrie execuția programului folosind semantica operațională big-step.
 
-### 1. \(\mathbb{E}[\log(X)]\) vs. \(\log(\mathbb{E}[X])\)
+### Exercițiul 1
 
-Aceasta este o aplicație a inegalității lui Jensen, care afirmă că pentru o funcție concavă \(f\) și o variabilă aleatoare \(X\):
+Avem următorul program:
+
+``` 
+while I * I ≤ N do (if I * I = N then P := 1 else skip); I := I + 1 
+```
+
+**(a) Să se descrie formal execuția lui Pgm, dintr-o stare inițială σ cu σ(N) = 30, σ(I) = 5, σ(P) = 0, folosind semantica operațională big-step sau small-step.**
+
+### Rezolvare:
+
+1. **Stare inițială:**
+   - σ(N) = 30
+   - σ(I) = 5
+   - σ(P) = 0
+
+2. **Programul:** `while I * I ≤ N do (if I * I = N then P := 1 else skip); I := I + 1`
+
+3. **Aplica regula `while` și începe evaluarea buclei:**
+
+   Începem să evaluăm bucla `while` pentru condiția `I * I ≤ N`.
+
+   Starea curentă:
+   - I = 5, N = 30, P = 0
+   - Condiție: `5 * 5 ≤ 30` (adică `25 ≤ 30`) -> Adevărat
+
+4. **Aplica `if-then-else`:**
+   - `I * I = N` (adică `5 * 5 = 30`) -> Fals
+   - Deci, se aplică ramura `else`: `skip`
+   
+   Starea rămâne aceeași: I = 5, N = 30, P = 0
+
+5. **Aplica `I := I + 1`:**
+   - I devine `I + 1` (adică `5 + 1 = 6`).
+
+   Noua stare: 
+   - I = 6, N = 30, P = 0
+
+6. **Bucla continuă cu noua valoare a lui I:**
+   - Condiția `6 * 6 ≤ 30` devine `36 ≤ 30`, care este falsă.
+
+7. **Ieșirea din bucla `while`:**  
+   Deoarece condiția este falsă, bucla se încheie și execuția programului se oprește.
+
+### Starea finală:
+- I = 6
+- N = 30
+- P = 0
+
+**Rezultatul final:** `σ'(I) = 6`, `σ'(N) = 30`, `σ'(P) = 0`
+
+---
+
+**(b) Să se arate că enunțul Hoare**:
+
 \[
-\mathbb{E}[f(X)] \leq f(\mathbb{E}[X])
+\{I = 0 \land \exists K (N = K * K)\} \text{Pgm}\{P = 1\}
 \]
-Funcția \(\log\) este concavă, deci:
-\[
-\mathbb{E}[\log(X)] \leq \log(\mathbb{E}[X])
-\]
-Deci răspunsul este **≤**.
 
-### 2. \(\mathbb{E}[X]\) vs. \(\sqrt{\mathbb{E}[X^2]}\)
+**este demonstrabil.**
 
-Folosing inegalitatea Cauchy-Schwarz:
-\[
-\mathbb{E}[X]^2 \leq \mathbb{E}[X^2]
-\]
-rezultă că:
-\[
-\mathbb{E}[X] \leq \sqrt{\mathbb{E}[X^2]}
-\]
-Deci răspunsul este **≤**.
+### Demonstrație:
 
-### 3. \(\mathbb{E}[\sin^2(X)] + \mathbb{E}[\cos^2(X)]\) vs. 1
+Enunțul Hoare afirmă că, dacă inițial \(I = 0\) și există un \(K\) astfel încât \(N = K * K\), atunci, după execuția lui Pgm, \(P = 1\).
 
-Folosind identitatea trigonometrică:
-\[
-\sin^2(X) + \cos^2(X) = 1
-\]
-și aplicând așteptarea, avem:
-\[
-\mathbb{E}[\sin^2(X)] + \mathbb{E}[\cos^2(X)] = \mathbb{E}[1] = 1
-\]
-Deci răspunsul este **=**.
+1. Condiția de intrare spune că există un \(K\) astfel încât \(N = K * K\).
+2. În timpul execuției buclei, dacă \(I * I = N\), atunci \(P := 1\) și \(P = 1\) rămâne valabil.
+3. Din moment ce bucla parcurge toate valorile de la 0 în sus și condiția \(I * I \leq N\) este adevărată, în final, dacă \(I * I = N\) pentru un anumit \(I\), se va seta \(P = 1\).
 
-### 4. \(P(X > c)\) vs. \(\frac{\mathbb{E}[X^3]}{c^3}\)
+Astfel, enunțul Hoare este demonstrabil.
 
-Aici putem folosi inegalitatea Markov:
-\[
-P(X > c) \leq \frac{\mathbb{E}[X^3]}{c^3}
-\]
-Deci răspunsul este **≤**.
-
-### 5. \(P(X \leq Y)\) vs. \(P(X \geq Y)\)
-
-Pentru două variabile aleatoare i.i.d. \(X\) și \(Y\), probabilitățile ca \(X \leq Y\) și \(X \geq Y\) sunt egale, deoarece distribuțiile lor sunt simetrice. Deci răspunsul este **=**.
-
-### 6. \(P(X + Y > 10)\) vs. \(P(X > 5\) sau \(Y > 5)\)
-
-Folosind inegalitatea Boole:
-\[
-P(X + Y > 10) \geq P(X > 5 \text{ sau } Y > 5)
-\]
-Deci răspunsul este **≥**.
-
-### 7. \(\mathbb{E}[\min(X, Y)]\) vs. \(\min(\mathbb{E}[X], \mathbb{E}[Y])\)
-
-Folosind din nou inegalitatea Jensen, de data aceasta pentru funcția convexă \(\min\), avem:
-\[
-\mathbb{E}[\min(X, Y)] \leq \min(\mathbb{E}[X], \mathbb{E}[Y])
-\]
-Deci răspunsul este **≤**.
-
-### 8. \(\frac{\mathbb{E}[X]}{\mathbb{E}[Y]}\) vs. \(\mathbb{E}\left[\frac{X}{Y}\right]\)
-
-Folosind inegalitatea Jensen pentru funcția convexă \(\frac{1}{Y}\) (sub presupunerea că \(Y > 0\)):
-\[
-\mathbb{E}\left[\frac{X}{Y}\right] \geq \frac{\mathbb{E}[X]}{\mathbb{E}[Y]}
-\]
-Deci răspunsul este **≤**.
-
-### 9. \(\mathbb{E}[X^2(X^2 + 1)]\) vs. \(\mathbb{E}[X^2(Y^2 + 1)]\)
-
-Deoarece \(X\) și \(Y\) sunt variabile i.i.d., avem:
-\[
-\mathbb{E}[X^2(X^2 + 1)] = \mathbb{E}[X^2]\mathbb{E}[X^2 + 1]
-\]
-și 
-\[
-\mathbb{E}[X^2(Y^2 + 1)] = \mathbb{E}[X^2]\mathbb{E}[Y^2 + 1]
-\]
-Deci răspunsul este **=**.
-
-### 10. \(\mathbb{E}\left[\frac{1}{X}\right]\) vs. \(\frac{1}{\mathbb{E}[X]}\)
-
-Folosind inegalitatea Jensen pentru funcția convexă \(\frac{1}{X}\) (presupunând \(X > 0\)):
-\[
-\mathbb{E}\left[\frac{1}{X}\right] \geq \frac{1}{\mathbb{E}[X]}
-\]
-Deci răspunsul este **≥**.
-
-Sper că aceste explicații sunt utile! Dacă ai alte întrebări sau nelămuriri, nu ezita să întrebi!
+Dacă mai ai nevoie de detalii sau clarificări, spune-mi!
