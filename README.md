@@ -1,112 +1,79 @@
-Hai să rezolvăm exercițiul 3 din al doilea model de examen, care se bazează pe găsirea unei **SLD-respingere** pentru un program Prolog. 
+#### **Sprint 1: Project Setup and Basic Functionalities**
 
-### Exercițiul 3 din al doilea model:
+1. **Project Setup**  
+   - Create a new ASP.NET Core project for PageSwap.  
+   - Set up the development environment and add necessary dependencies.  
+   - **Priority**: High
 
-Program Prolog:
-```prolog
-shuffle(lit(X), lit(X)).
-shuffle(arb(X, Y, Z), arb(T, U, W)) :- shuffle(X, U), shuffle(Y, W), shuffle(Z, T).
-```
+2. **Database Setup**  
+   - Set up the database using Entity Framework Core.  
+   - Create tables for users, books, and reviews.  
+   - **Priority**: High
 
-**Ținta:**
-```prolog
-shuffle(X, arb(lit(t), lit(c), lit(u)), arb(lit(i), lit(a), lit(t), lit(i), lit(e), lit(r))).
-```
+3. **User Authentication and Authorization**  
+   - **User Story:** "As a user, I want to register and log in, so that I can have a personalized account to use the platform."  
+   - Implement user authentication features (sign up, login).  
+   - Secure certain sections of the app for authenticated users only.  
+   - **Priority**: High
 
-Trebuie să găsim o **SLD-respingere** pentru programul de mai sus și să determinăm valoarea lui `X` în substituția calculată.
+4. **User Profile Creation**  
+   - Create a profile for each user where they can manage their book lists and profile information.  
+   - **Priority**: High
 
-### Rezolvare:
+---
 
-1. **Pasul 1: Începem cu rezolvarea goal-ului.**
+#### **Sprint 2: Search and Filter Functionalities**
 
-   ```prolog
-   shuffle(X, arb(lit(t), lit(c), lit(u)), arb(lit(i), lit(a), lit(t), lit(i), lit(e), lit(r))).
-   ```
+5. **Book Search and Filtering**  
+   - **User Story:** "As a user, I want to search for books by title, author, or genre, so I can quickly find ones that interest me."  
+   - Implement search functionality for books by title, author, or genre.  
+   - Add filters to improve search relevance.  
+   - **Priority**: Medium
 
-2. **Pasul 2: Aplicăm prima regulă `shuffle/2` pentru a descompune termenii.**
+6. **Profile with Book List**  
+   - **User Story:** "As a user, I want to list books I own, so others can see my collection and interests."  
+   - Allow users to add and display the books they own or want to lend.  
+   - **Priority**: Medium
 
-   Observăm că regula de bază:
-   ```prolog
-   shuffle(lit(X), lit(X)).
-   ```
-   nu se poate aplica direct, deoarece termenii nu sunt de forma `lit(X)`.
+---
 
-3. **Pasul 3: Aplicăm a doua regulă `shuffle/2` pentru a descompune arborele.**
+#### **Sprint 3: Loan and Review Functionalities**
 
-   A doua regulă are forma:
-   ```prolog
-   shuffle(arb(X, Y, Z), arb(T, U, W)) :- shuffle(X, U), shuffle(Y, W), shuffle(Z, T).
-   ```
+7. **Loan Requests**  
+   - **User Story:** "As a user, I want to send a loan request to the book owner, so I can arrange to borrow it easily."  
+   - Create the feature to send loan requests to other users.  
+   - Notify users about request acceptance or rejection.  
+   - **Priority**: High
 
-   Aplicând această regulă:
-   - `X = arb(X1, Y1, Z1)` pentru unii termeni `X1`, `Y1`, `Z1`.
-   - Goal-urile devin:
-     ```prolog
-     shuffle(X1, lit(i)), shuffle(Y1, lit(a)), shuffle(Z1, arb(lit(t), lit(i), lit(e), lit(r))).
-     ```
+8. **Book Reviews and Lender Ratings**  
+   - **User Story:** "As a user, I want to leave reviews for books and ratings for lenders, so that others can evaluate the quality and reliability of the book."  
+   - Add functionality for users to review books they've read.  
+   - Enable users to rate lenders they’ve borrowed from.  
+   - **Priority**: Medium
 
-4. **Pasul 4: Descompunem `shuffle(X1, lit(i))`.**
+---
 
-   Dacă `X1 = lit(i)`, goal-ul `shuffle(lit(i), lit(i))` se poate rezolva folosind prima regulă `shuffle/2`. 
+#### **Sprint 4: Request Management and Loan History**
 
-   - Substituția devine: `{X1 = lit(i)}`.
-   - Noua listă de goal-uri devine:
-     ```prolog
-     shuffle(Y1, lit(a)), shuffle(Z1, arb(lit(t), lit(i), lit(e), lit(r))).
-     ```
+9. **Request and Loan Management**  
+   - **User Story:** "As a user, I want to manage all my book requests and loans, so I can track borrowed, lent, and returned books."  
+   - Create a section where users can track all active requests and loans.  
+   - Generate a full transaction history for transparency.  
+   - **Priority**: Medium
 
-5. **Pasul 5: Descompunem `shuffle(Y1, lit(a))`.**
+10. **Notifications and Reminders**  
+    - Implement a notification system to remind users about returning books.  
+    - **Priority**: Low
 
-   Similar, dacă `Y1 = lit(a)`, goal-ul `shuffle(lit(a), lit(a))` se poate rezolva folosind prima regulă `shuffle/2`.
+---
 
-   - Substituția devine: `{Y1 = lit(a)}`.
-   - Noua listă de goal-uri devine:
-     ```prolog
-     shuffle(Z1, arb(lit(t), lit(i), lit(e), lit(r))).
-     ```
+### **Additional Tasks for Product Enhancement**
 
-6. **Pasul 6: Descompunem `shuffle(Z1, arb(lit(t), lit(i), lit(e), lit(r)))`.**
+11. **Testing and Validation**  
+    - Unit testing for core functionalities.  
+    - Data validation to prevent usage errors.  
+    - **Priority**: Medium
 
-   Aplicăm din nou regula a doua de shuffle:
-   - `Z1 = arb(Z11, Z12, Z13)`.
-   - Goal-urile devin:
-     ```prolog
-     shuffle(Z11, lit(t)), shuffle(Z12, lit(i)), shuffle(Z13, arb(lit(e), lit(r))).
-     ```
-
-7. **Pasul 7: Continuăm decompoziția cu `shuffle(Z11, lit(t))`, `shuffle(Z12, lit(i))`, și `shuffle(Z13, arb(lit(e), lit(r)))`.**
-
-   - `shuffle(Z11, lit(t))` se rezolvă dacă `Z11 = lit(t)`.
-   - `shuffle(Z12, lit(i))` se rezolvă dacă `Z12 = lit(i)`.
-   - `shuffle(Z13, arb(lit(e), lit(r)))` se rezolvă printr-o altă descompunere:
-     - `Z13 = arb(Z131, Z132)`, și goal-urile devin:
-       ```prolog
-       shuffle(Z131, lit(e)), shuffle(Z132, lit(r)).
-       ```
-     - `shuffle(Z131, lit(e))` se rezolvă dacă `Z131 = lit(e)`.
-     - `shuffle(Z132, lit(r))` se rezolvă dacă `Z132 = lit(r)`.
-
-8. **Pasul 8: Finalizarea substituției.**
-
-   Avem următoarele substituții:
-   - `X1 = lit(i)`
-   - `Y1 = lit(a)`
-   - `Z11 = lit(t)`
-   - `Z12 = lit(i)`
-   - `Z131 = lit(e)`
-   - `Z132 = lit(r)`
-
-   Deci, substituția completă pentru `X` este:
-
-   ```prolog
-   X = arb(lit(i), lit(a), arb(lit(t), lit(i), arb(lit(e), lit(r)))).
-   ```
-
-9. **Concluzie:**
-
-   Valoarea lui `X` în substituția calculată este:
-   ```prolog
-   arb(lit(i), lit(a), arb(lit(t), lit(i), arb(lit(e), lit(r)))).
-   ```
-
-Acesta este răspunsul pentru exercițiul 3 din al doilea model de examen. Dacă ai întrebări sau vrei mai multe detalii, spune-mi!
+12. **UI and UX Optimization**  
+    - Enhance the interface for a user-friendly experience.  
+    - **Priority**: Low  
