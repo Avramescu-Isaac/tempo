@@ -35,9 +35,9 @@
 - Create a section where users can track all active requests and loans  
 - Generate a full transaction history for transparency  
   
-#Part 5  
-##Testing and Validation  
+# Part 5  
+##  Testing and Validation  
 - Unit testing for core functionalities  
 - Data validation to prevent usage errors  
-##UI and UX Optimization  
+##  UI and UX Optimization  
 - Enhance the interface for a user-friendly experience  
