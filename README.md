@@ -1,3 +1,11 @@
+Ai dreptate! Crearea paginilor de bază este esențială încă din Sprint 1. Voi actualiza backlog-ul pentru a include task-ul de creare a paginilor web fundamentale necesare navigării aplicației în Sprint 1. Iată backlog-ul revizuit:
+
+---
+
+### **Updated Prioritized Backlog for PageSwap**
+
+---
+
 #### **Sprint 1: Project Setup and Basic Functionalities**
 
 1. **Project Setup**  
@@ -10,14 +18,18 @@
    - Create tables for users, books, and reviews.  
    - **Priority**: High
 
-3. **User Authentication and Authorization**  
+3. **Page Creation (UI)**  
+   - Develop core pages for the application:
+     - **Home Page** for browsing and featured books.
+     - **Login and Register Pages** for user authentication.
+     - **User Profile Page** for managing book lists and profile information.
+     - **Book Search Page** for filtering and finding books.
+   - **Priority**: High
+
+4. **User Authentication and Authorization**  
    - **User Story:** "As a user, I want to register and log in, so that I can have a personalized account to use the platform."  
    - Implement user authentication features (sign up, login).  
    - Secure certain sections of the app for authenticated users only.  
-   - **Priority**: High
-
-4. **User Profile Creation**  
-   - Create a profile for each user where they can manage their book lists and profile information.  
    - **Priority**: High
 
 ---
@@ -77,3 +89,7 @@
 12. **UI and UX Optimization**  
     - Enhance the interface for a user-friendly experience.  
     - **Priority**: Low  
+
+---
+
+Astfel, pagina principală și alte pagini de bază vor fi dezvoltate în Sprint 1, alături de setup-ul proiectului și al bazei de date, pentru a avea o structură de navigare funcțională de la început.
