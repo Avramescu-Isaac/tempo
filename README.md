@@ -1,63 +1,44 @@
-# Part 1  
-### Project Setup:  
-- Create a new ASP.NET Core project for PageSwap  
-- Set up the development environment and add necessary dependencies  
+### 1. **Crearea Materialului Nou**
+1. Creează un material nou:
+   - În **Content Browser**, clic dreapta → **Material** → Denumește-l `M_GlitterStars`.
+2. Deschide materialul pentru editare.
 
-### Database Setup  
-- Set up the database using Entity Framework Core  
-- Create tables for users, books, and reviews  
+---
 
-### Page Creation  
-- Develop core pages for the application:  
-    - Home Page for browsing and featured books  
-    - Login and Register Pages for user authentication  
-    - User Profile Page for managing book lists and profile information  
-    - Book Search Page for filtering and finding books  
-    - Borrowed, Lent and Returned Books Page for managing all books requests, loans and tracking borrowed, lent, and returned books  
+### 2. **Crearea Sclipiciului cu "Stele"**
+1. **Zgomot pentru Randomizare:**
+   - Adaugă un nod **Noise**:
+     - Setează:
+       - **Scale**: între 50 și 200 (ajustabil pentru densitatea punctelor sclipitoare).
+       - **Quality**: 2 sau 3 pentru mai multe detalii.
+       - Conectează un nod **Time** la intrarea **Position** a nodului `Noise` pentru a anima sclipiciul (steluțele vor apărea și dispărea).
+   - **Rezultat**: Acesta creează o distribuție de puncte "aleatoare".
 
-### User Authentication and Authorization  
-- Implement user authentication features (sign up, login)  
-- Secure certain sections of the app for authenticated users only  
+2. **Controlul Sclipirii:**
+   - Creează un nod **Sine**:
+     - Adaugă un nod `Time` și conectează-l la nodul `Sine`.
+     - Conectează ieșirea nodului `Sine` la un nod **Multiply** împreună cu nodul `Noise`.
+     - Acest pas face ca punctele să lumineze intermitent.
 
-### CRUD Functionality 
-- Implement Create, Read, Update, Delete (CRUD) functionality for:
-    - User Book Lists: Allow users to add, update, or delete books in their lists  
-    - User Profiles: Enable CRUD operations for managing user profile information  
-    - Reviews: Allow CRUD for user-generated reviews  
+3. **Threshold pentru Stele:**
+   - Adaugă un nod **If**:
+     - Conectează ieșirea din `Multiply` la pinul **A** al nodului `If`.
+     - Creează un nod `Constant` cu valoarea `0.7` (sau ajustează) și conectează-l la pinul **B**.
+     - Configurează:
+       - **A >= B**: Setează la `1` (zonele stelare luminoase).
+       - **A < B**: Setează la `0` (zonele întunecate).
 
-# Part 2  
-### Book Search and Filtering  
-- Implement search functionality for books by title, author, or genre  
-- Add filters to improve search relevance  
+---
 
-### Profile with Book List  
-- Allow users to add and display the books they own or want to lend  
-### Profile Update
--Enable users to update their profiles with personal information, interests, or preferences  
+### 3. **Adăugarea Culorii la Stele**
+1. Creează un nod **Constant3Vector** pentru culoarea stelelor (alb, galben, sau orice culoare preferată) și conectează-l la un nod **Multiply** împreună cu ieșirea din `If`.
+2. Conectează rezultatul acestui nod la **Emissive Color** pentru a face stelele să strălucească.
 
-### User Feedback  
-- Implement a feedback feature for users to suggest improvements or report issues with the platform 
+---
 
-# Part 3  
-### Loan Requests  
-- Create the feature to send loan requests to other users  
+### 4. **Culoarea Fundalului**
+1. Creează o culoare de fundal:
+   - Adaugă un nod `Constant3Vector` pentru culoarea materialului de bază.
+   - Conectează-l direct la **Base Color**.
 
-### Book Reviews and Lender Ratings  
-- Add functionality for users to review books they've read  
-- Enable users to rate lenders they’ve borrowed from  
-  
-# Part 4  
-### Request and Loan Management  
-- Create a section where users can track all active requests and loans  
-- Generate a full transaction history for transparency  
-  
-# Part 5  
-### Admin Dashboard  
-- Create an admin dashboard for managing users, monitoring activity, and overseeing book exchanges  
-- Provide admin functionality for viewing and moderating reviews or feedback  
-
-###  Testing and Validation  
-- Unit testing for core functionalities  
-- Data validation to prevent usage errors  
-###  UI and UX Optimization  
-- Enhance the interface for a user-friendly experience  
+---
