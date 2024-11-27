@@ -15,11 +15,6 @@ Sigur! Hai să analizăm fiecare nod din materialul tău și să explicăm ce fa
 
 ---
 
-### 4. **Multiply (0.5)**
-   - Multiplică valoarea timpului cu 0.5. Aceasta încetinește animația, reducând viteza cu care sclipiciul se mișcă sau variază.
-
----
-
 ### 5. **Add**
    - Adună rezultatul din **Multiply** (Timp redus) cu poziția absolută. 
    - Asta face ca mișcarea sclipiciului să fie influențată de poziția în lume și să pară mai aleatorie.
