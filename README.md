@@ -9,12 +9,6 @@ Sigur! Hai să analizăm fiecare nod din materialul tău și să explicăm ce fa
 
 ---
 
-### 2. **Divide (1.0)**
-   - Poziția obținută de la **Absolute World Position** este împărțită la 1.0 (de obicei această diviziune este redundantă, dar uneori se folosește pentru claritate sau ca placeholder pentru ajustări ulterioare).
-   - Nu schimbă efectiv datele poziției, dar poate fi un nod pregătitor pentru viitoare modificări.
-
----
-
 ### 3. **Time**
    - Nodul **Time** furnizează o valoare care crește continuu în timp. Este baza animației, oferind un efect dinamic materialului.
    - Este folosit pentru a schimba poziția sau caracteristicile sclipiciului pe măsură ce timpul trece.
