@@ -1,1 +1,2 @@
-[![Meadows Gameplay Demo](https://img.youtube.com/vi/N2hCqTlrH2I/maxresdefault.jpg)](https://youtu.be/N2hCqTlrH2I)
+## 🎥 Demo Video
+[Click aici pentru a vedea demo-ul pe YouTube](https://youtu.be/N2hCqTlrH2I)
