@@ -1,2 +1,1 @@
-## 🎥 Demo Video
-[Click aici pentru a vedea demo-ul pe YouTube](https://youtu.be/N2hCqTlrH2I)
+![image](https://github.com/user-attachments/assets/f2721260-e64e-409f-a24e-59262e22c679)
