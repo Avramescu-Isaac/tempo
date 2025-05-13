@@ -1,1 +1,1 @@
-[![Demo Video](https://img.shields.io/badge/Click_to_play-Demo_Video-blue)](https://github.com/L-o-rd/meadows-pas/raw/Buy-and-Sell-Fixes/Images%20and%20Demo/Demo_Compressed.mp4)
+[![Meadows Gameplay Demo](https://img.youtube.com/vi/N2hCqTlrH2I/maxresdefault.jpg)](https://youtu.be/N2hCqTlrH2I)
